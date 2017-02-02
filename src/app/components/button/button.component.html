@@ -1,0 +1,31 @@
+<div [(ngModel)]="model" ngbRadioGroup name="radioBasic">
+  <label class="btn btn-primary">
+    <input type="radio" [value]="1"> Left (pre-checked)
+  </label>
+  <label class="btn btn-primary">
+    <input type="radio" value="middle"> Middle
+  </label>
+  <label class="btn btn-primary">
+    <input type="radio" [value]="false"> Right
+  </label>
+</div>
+<hr>
+<pre>{{model}}</pre>
+
+<p>
+  Check-box-like button group can be easily done with pure Angular 2, no custom directives necessary.
+  But we include demo here for completeness.
+</p>
+<div class="btn-group" data-toggle="buttons">
+  <label class="btn btn-primary" [class.active]="models.left">
+    <input type="checkbox" [(ngModel)]="models.left"> Left (pre-checked)
+  </label>
+  <label class="btn btn-primary" [class.active]="models.middle">
+    <input type="checkbox" [(ngModel)]="models.middle"> Middle
+  </label>
+  <label class="btn btn-primary" [class.active]="models.right">
+    <input type="checkbox" [(ngModel)]="models.right"> Right
+  </label>
+</div>
+<hr>
+<pre>{{models | json}}</pre>

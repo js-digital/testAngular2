@@ -1,0 +1,16 @@
+<button (click)="loadComments(sources.google)" class="button">Load {{sources.google}}</button>
+<button (click)="loadComments(sources.bbc)" class="button">Load {{sources.bbc}}</button>
+<button (click)="loadComments(sources.cnn)" class="button">Load {{sources.cnn}}</button>
+<button (click)="loadComments(sources.espn)" class="button">Load {{sources.espn}}</button>
+<button (click)="loadComments(sources.financialTimes)" class="button">Load {{sources.financialTimes}}</button>
+<button (click)="loadComments(sources.mtvNews)" class="button">Load {{sources.mtvNews}}</button>
+<button (click)="loadComments(sources.usaToday)" class="button">Load {{sources.usaToday}}</button>
+
+<ul class="news">
+  <li class="news__item" *ngFor="let comments of articles"  [@isVisibleChanged]="isVisible">
+      <h2 class="news__title"><a href="{{comments.url}}" target="_blank">{{comments.title}}</a></h2>
+      <div class="news__author">{{comments.author}} <time>{{comments.publishedAt | date}}</time> </div>
+      <img class="news__image" src="{{comments.urlToImage}}" alt="{{comments.title}}" width="100%"/>
+      <p class="news__description">{{comments.description}}</p>
+  </li>
+</ul>
