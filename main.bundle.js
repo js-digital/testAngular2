@@ -114,6 +114,7 @@ var AppComponent = (function () {
         this.af = af;
         this.title = 'app works!';
         this.msgVal = '';
+        this.user = "";
         this.displayName = "";
         this.emailCurrent = "";
         this.photoCurrent = '';
@@ -122,6 +123,7 @@ var AppComponent = (function () {
             dropdownButton: "dropdown__button",
             dropdownList: "dropdown__link"
         };
+        this.af.auth.subscribe(function (auth) { return console.log(auth); });
         this.items = af.database.list('/messages', {
             query: {
                 limitToLast: 5
@@ -130,9 +132,11 @@ var AppComponent = (function () {
         this.af.auth.subscribe(function (auth) {
             if (auth) {
                 _this.name = auth;
+                _this.user = auth.facebook.displayName;
                 _this.emailCurrent = auth.facebook.email;
                 _this.displayName = auth.facebook.displayName;
                 _this.photoCurrent = auth.facebook.photoURL;
+                console.log(auth);
             }
         });
     }
@@ -928,7 +932,7 @@ module.exports = module.exports.toString();
 /***/ 394:
 /***/ (function(module, exports) {
 
-module.exports = "\n<div class=\"wrapper\">\n  <fs-header>\n    <fs-nav></fs-nav>\n  </fs-header>\n\n\n  <div class=\"flex-container\">\n    <div class=\"sidebar\">\n      <ul class=\"sidebar__list\">\n        <li class=\"sidebar__item\">\n          <div class=\"user\">\n            <div class=\"user__avatar\">\n              <img class=\"user__img\" [src]=\"photoCurrent\" [alt]=\"displayName\">\n            </div>\n            <div class=\"user__info\">\n              <div class=\"user__name\">{{displayName}}</div>\n              <div class=\"user__description\">{{emailCurrent}}</div>\n            </div>\n          </div>\n\n        </li>\n      </ul>\n    </div>\n\n    <div class=\"main-content\">\n      <div>\n        <button class=\"button button--secondary\" (click)=\"logOut()\" *ngIf=\"name\">LogOut</button>\n      </div>\n      <button class=\"button button--facebook\" (click)=\"login()\" *ngIf=\"!name\">Login With Facebook</button>\n\n      <input class=\"input-send\" type=\"text\" id=\"message\" *ngIf=\"name\" placeholder=\"Chat here...\" (keyup.enter)=\"chatSend($event.target.value)\" [(ngModel)]=\"msgVal\" />\n\n\n      <div *ngIf=\"name\">\n        <div class=\"card\" *ngFor=\"let item of items | async\">\n          <div class=\"card__name\">\n            <img [src]=\"photoCurrent\" alt=\"\" width=\"24\" height=\"24\">{{item.name}} {{item.pgotoUrls}}</div>\n          <div class=\"card__item\">{{item.message}}</div>\n        </div>\n      </div>\n\n      <ng-template #loading>Loading...</ng-template>\n\n    </div>\n  </div>\n\n\n\n\n\n\n\n\n  <router-outlet></router-outlet>\n\n\n\n  <footer class=\"footer\"></footer>\n\n\n\n\n\n\n\n</div>\n\n"
+module.exports = "\n<div class=\"wrapper\">\n  <fs-header>\n    <fs-nav></fs-nav>\n  </fs-header>\n\n\n  <div class=\"flex-container\">\n    <div class=\"sidebar\">\n      <ul class=\"sidebar__list\" *ngIf=\"name\">\n        <li class=\"sidebar__item\">\n          <div class=\"user\">\n            <div class=\"user__avatar\">\n              <img class=\"user__img\" [src]=\"photoCurrent\" [alt]=\"displayName\">\n            </div>\n            <div class=\"user__info\">\n              <div class=\"user__name\">{{user}}</div>\n              <div class=\"user__description\">{{emailCurrent}}</div>\n            </div>\n          </div>\n\n        </li>\n      </ul>\n    </div>\n\n    <div class=\"main-content\">\n\n      <div style=\"color: black\"> {{ (af.auth | async)?.uid }}  {{user}}</div>\n      <button (click)=\"login()\">Login</button>\n      <button (click)=\"logout()\">Logout</button>\n\n      <div>\n        <button class=\"button button--secondary\" (click)=\"logOut()\" *ngIf=\"name\">LogOut</button>\n      </div>\n      <button class=\"button button--facebook\" (click)=\"login()\" *ngIf=\"!name\">Login With Facebook</button>\n\n      <input class=\"input-send\" type=\"text\" id=\"message\" *ngIf=\"name\" placeholder=\"Chat here...\" (keyup.enter)=\"chatSend($event.target.value)\" [(ngModel)]=\"msgVal\" />\n\n\n      <div *ngIf=\"name\">\n        <div class=\"card\" *ngFor=\"let item of items | async\">\n          <div class=\"card__name\">\n            <img [src]=\"photoCurrent\" alt=\"\" width=\"24\" height=\"24\">{{user}}</div>\n          <div class=\"card__item\"> {{item.message}} </div>\n        </div>\n      </div>\n\n      <ng-template #loading>Loading...</ng-template>\n\n    </div>\n  </div>\n\n\n\n\n\n\n\n\n  <router-outlet></router-outlet>\n\n\n\n  <footer class=\"footer\"></footer>\n\n\n\n\n\n\n\n</div>\n\n"
 
 /***/ }),
 
